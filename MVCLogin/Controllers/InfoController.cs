@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Migrations;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -78,7 +79,7 @@ namespace MVCLogin.Controllers
             if (ModelState.IsValid)
             {
                 LoginDatabaseEntities1 infodb = new LoginDatabaseEntities1();
-                infodb.Infoes.Add(info);
+                infodb.Infoes.AddOrUpdate(info);
                 infodb.SaveChanges();
                 return Json(true, JsonRequestBehavior.AllowGet);
             }

@@ -18,9 +18,10 @@ namespace MVCLogin.Models
         public string Name { get; set; }
         public string Surname { get; set; }
         public string Password { get; set; }
-        public string UserName { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
     
         public virtual Info Info { get; set; }
+
+        public string UserName { get; set; }
     }
 }

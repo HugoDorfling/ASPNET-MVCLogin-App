@@ -4,9 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="InfoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'LoginDatabase.dbo.Info' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+    <Schema Namespace="InfoDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Info">
           <Key>
             <PropertyRef Name="PersonId" />
@@ -45,28 +43,14 @@ warning 6002: The table/view 'LoginDatabase.dbo.Info' does not have a primary ke
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="InfoDBModelStoreContainer">
+          <EntitySet Name="Info" EntityType="Self.Info" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Person" EntityType="Self.Person" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Info" EntityType="Self.Info" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [Info].[PersonId] AS [PersonId], 
-    [Info].[TelNo] AS [TelNo], 
-    [Info].[CellNo] AS [CellNo], 
-    [Info].[AddressLine1] AS [AddressLine1], 
-    [Info].[AddressLine2] AS [AddressLine2], 
-    [Info].[AddressLine3] AS [AddressLine3], 
-    [Info].[AddressCode] AS [AddressCode], 
-    [Info].[PostalAddress1] AS [PostalAddress1], 
-    [Info].[PostalAddress2] AS [PostalAddress2], 
-    [Info].[PostalCode] AS [PostalCode]
-    FROM [dbo].[Info] AS [Info]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Info_Person1" Association="Self.FK_Info_Person1">
             <End Role="Person" EntitySet="Person" />
             <End Role="Info" EntitySet="Info" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="InfoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">

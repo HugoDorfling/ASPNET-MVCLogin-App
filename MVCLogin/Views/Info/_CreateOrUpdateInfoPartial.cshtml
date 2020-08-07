@@ -12,7 +12,7 @@
         </h4>
     </div>
     <div class="modal-body">
-        @* @Html.HiddenFor(c => c.PersonId) *@
+        @Html.HiddenFor(c => c.PersonId)
         <div class="row">
             <div class="col-md-12">
                 <div class="form-group">
@@ -76,6 +76,13 @@
                     <div class="col-md-10">
                         @Html.EditorFor(x => x.PostalCode, new { @class = "form-control", required = true })
                         @Html.ValidationMessageFor(x => x.PostalCode, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(x => x.PersonId, new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(x => x.PersonId, new { @class = "form-control", required = true })
+                        @Html.ValidationMessageFor(x => x.PersonId, "", new { @class = "text-danger" })
                     </div>
                 </div>
             </div>
