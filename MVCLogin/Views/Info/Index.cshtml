@@ -1,17 +1,10 @@
 ﻿@model IEnumerable<MVCLogin.ViewModels.InfoVM>
 
 @{
-    Layout = null;
+    ViewBag.Title = "Info Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Info Page</title>
-</head>
-<body>
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
@@ -89,12 +82,47 @@
                 @Html.DisplayFor(modelItem => item.PostalCode)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                <button type="button" class="btn btn-sm btn-success pull-right" onclick="getInfo()">Add or Edit</button>
             </td>
         </tr>
     }
     
     </table>
-</body>
-</html>
+
+<div class="modal fade" role="dialog" id="infoModal" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" id="infomodalBody">
+            
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script>
+        function getInfo() {
+            $.get("/Info/GetInfoPartial", function (res) {
+                $("#infomodalBody").html(res);
+                $("#infoModal").modal('show');
+            })
+        }
+
+        function createOrUpdate() {
+            var modal = $("#infoModal");
+            var form = $('form[name="infoForm"]');
+
+            form.validate();
+            if (!form.valid()) {
+                return;
+            } else {
+                var data = form.serialize();
+                $.post("/Info/CreateOrUpdateInfo", data, function (res) {
+                    if (res) {
+                        modal.modal('hide');
+
+                    }
+                });
+            }
+        }
+    </script>    
+}
