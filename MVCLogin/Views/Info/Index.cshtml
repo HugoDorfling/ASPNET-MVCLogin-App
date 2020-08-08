@@ -1,98 +1,21 @@
-﻿@model IEnumerable<MVCLogin.ViewModels.InfoVM>
-
-@{
+﻿@{
     ViewBag.Title = "Info Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-    <p>
-        @Html.ActionLink("Create New", "Create")
-    </p>
-    <table class="table">
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Surname)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.TelNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CellNo)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddressLine1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddressLine2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddressLine3)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.AddressCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostalAddress1)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostalAddress2)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PostalCode)
-            </th>
-            <th></th>
-        </tr>
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Surname)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.TelNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CellNo)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressLine3)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AddressCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalAddress1)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalAddress2)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PostalCode)
-            </td>
-            <td>
-                <button type="button" class="btn btn-sm btn-success pull-right" onclick="getInfo()">Add or Edit</button>
-            </td>
-        </tr>
+<div class="infodetailsdiv">
+    @{
+        Html.RenderPartial("_InfoDetailsPartial");
     }
-    
-    </table>
+</div>
+<div class="container-fluid">
+        <button type="button" class="btn btn-sm btn-success pull-right" onclick="getInfo()">Edit Information</button>
+</div>
 
 <div class="modal fade" role="dialog" id="infoModal" aria-labelledby="infoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content" id="infomodalBody">
-            
+
         </div>
     </div>
 </div>
@@ -119,10 +42,11 @@
                 $.post("/Info/CreateOrUpdateInfo", data, function (res) {
                     if (res) {
                         modal.modal('hide');
-
                     }
+                    $(".infodetailsdiv").load('/Info/RefreshInfoPartial');
                 });
             }
         }
-    </script>    
+
+    </script>
 }

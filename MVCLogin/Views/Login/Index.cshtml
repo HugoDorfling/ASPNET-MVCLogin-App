@@ -28,47 +28,36 @@
     {
         <table>
             <tr>
-                <td></td>
                 <td style="text-decoration:underline;"><h1 style=" font-size: 20px;">MVC Login App</h1></td>
             </tr>
             <tr>
                 <td>
-                    @Html.LabelFor(model => model.UserName)
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.UserName)
+                    @Html.TextBoxFor(model => model.UserName, new { @class = "form-control", required = true, placeholder = "Username" })
                 </td>
             </tr>
             <tr>
-                <td></td>
                 <td>
                     @Html.ValidationMessageFor(model => model.UserName)
                 </td>
             </tr>
             <tr>
                 <td>
-                    @Html.LabelFor(model => model.Password)
-                </td>
-                <td>
-                    @Html.EditorFor(model => model.Password)
+                    @Html.PasswordFor(model => model.Password, new { @class = "form-control", required = true, placeholder = "Password" })
                 </td>
             </tr>
             <tr>
-                <td></td>
                 <td>
                     @Html.ValidationMessageFor(model => model.Password)
                 </td>
             </tr>
             <tr>
-                <td colspan="2">
+                <td>
                     <label class="field-validation-error">
                         @Html.DisplayFor(model => model.LoginErrorMessage)
                     </label>
                 </td>
             </tr>
             <tr>
-                <td>
-                </td>
                 <td>
                     <input type="submit" class="btn btn-primary" name="name" value="Login" />
                     <input type="reset" class="btn btn-secondary" name="name" value="Clear" />
