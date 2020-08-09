@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using Foolproof;
 
 namespace MVCLogin.ViewModels
 {
@@ -12,7 +15,13 @@ namespace MVCLogin.ViewModels
         public int PersonId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
+        [DisplayName("New Password")]
         public string Password { get; set; }
+        [NotMapped]
+        [DisplayName("Confirm Password")]
+        [RequiredIf("IsPasswordRequired", true, ErrorMessage = "You need to confirm your new password")]
+        [Compare("Password", ErrorMessage = "Confirm Password value doesn't match New Password value")]
+        public string ConfirmPassword { get; set; }
         [DisplayName("Telephone Number")]
         public string TelNo { get; set; }
         [DisplayName("Cellphone Number")]
@@ -31,5 +40,13 @@ namespace MVCLogin.ViewModels
         public string PostalAddress2 { get; set; }
         [DisplayName("Postal Code")]
         public string PostalCode { get; set; }
+
+        public bool IsPasswordRequired
+        {
+            get
+            {
+                return Password != null;
+            }
+        }
     }
 }

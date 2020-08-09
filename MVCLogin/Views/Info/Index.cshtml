@@ -25,12 +25,18 @@
 @section scripts {
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script>
+
         function getInfo() {
             $.get("/Info/GetInfoPartial", function (res) {
                 $("#infomodalBody").html(res);
                 $("#infoModal").modal('show');
             })
         }
+
+        $('.formcontainer').change(
+            function () {
+                $.validator.unobtrusive.parse("#infoForm");
+            });
 
         function createOrUpdate() {
             var modal = $("#infoModal");

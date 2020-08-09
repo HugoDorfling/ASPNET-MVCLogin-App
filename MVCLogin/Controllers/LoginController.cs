@@ -59,6 +59,7 @@ namespace MVCLogin.Controllers
                     }
                     // update with current login time
                     personDetails.LastLogin = DateTime.Now;
+                    db.SaveChanges();
                     infodb.SaveChanges();
                     return RedirectToAction("GetInfo", "Info", infoModel);
                 }
