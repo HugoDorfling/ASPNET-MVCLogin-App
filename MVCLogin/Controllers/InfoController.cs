@@ -119,30 +119,26 @@ namespace MVCLogin.Controllers
        
         public ActionResult RefreshInfoPartial()
         {
-            MVCLogin_dbEntities infodb = new MVCLogin_dbEntities();
-            InfoVM objivm = new InfoVM(); // to hold list of person and info details
-            // query for getting data from database from joining two tables and storing data in infolist
-            var infolist = (from Pers in infodb.People
-                            join Inf in infodb.Infoes on Pers.ID equals Inf.PersonId
-                            select new
-                            { Pers.Name, Pers.Surname, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode});
+            return PartialView("_InfoDetailsPartial", currentInfoVM);
+        }
 
-            //Using foreach loop to fill data from infolist to List<InfoVM>
-            foreach (var item in infolist)
-            {
-                objivm.Name = item.Name;
-                objivm.Surname = item.Surname;
-                objivm.TelNo = item.TelNo;
-                objivm.CellNo = item.CellNo;
-                objivm.AddressLine1 = item.AddressLine1;
-                objivm.AddressLine2 = item.AddressLine2;
-                objivm.AddressLine3 = item.AddressLine3;
-                objivm.AddressCode = item.AddressCode;
-                objivm.PostalAddress1 = item.PostalAddress1;
-                objivm.PostalAddress2 = item.PostalAddress2;
-                objivm.PostalCode = item.PostalCode;
-            }
-            return PartialView("_InfoDetailsPartial", objivm);
+        public ActionResult Logout()
+        {
+            currentInfoVM.Name = "";
+            currentInfoVM.Surname = "";
+            currentInfoVM.TelNo = "";
+            currentInfoVM.CellNo = "";
+            currentInfoVM.AddressLine1 = "";
+            currentInfoVM.AddressLine2 = "";
+            currentInfoVM.AddressLine3 = "";
+            currentInfoVM.AddressCode = "";
+            currentInfoVM.PostalAddress1 = "";
+            currentInfoVM.PostalAddress2 = "";
+            currentInfoVM.PostalCode = "";
+            currentInfoVM.PersonId = 3;
+            currentInfoVM.Password = "";
+            currentInfoVM.ConfirmPassword = "";
+            return RedirectToAction("Index", "Login");
         }
     }
 }

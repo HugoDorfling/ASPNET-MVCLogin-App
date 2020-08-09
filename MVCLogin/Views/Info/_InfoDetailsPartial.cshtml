@@ -7,7 +7,7 @@
 <div>
     <div class="profile-div">
         <p>Logged in as @Html.DisplayFor(model => model.Name[0])@(Html.DisplayFor(model => model.Surname))</p>
-        <a class="btn btn-primary logout-btn" href="/Login">Logout</a>
+        <button class="btn btn-primary logout-btn">@Html.ActionLink("Logout", "Logout", "Info") </button>
     </div>
 </div>
 <div class="container-fluid" id="infodetails">
