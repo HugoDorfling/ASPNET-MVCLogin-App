@@ -11,122 +11,125 @@ namespace MVCLogin.Controllers
 {
     public class InfoController : Controller
     {
-        // GET: Info
-        [AcceptVerbs(HttpVerbs.Get)]
+        public static InfoVM currentInfoVM = new InfoVM();
+
         public ActionResult Index()
         {
-            LoginDatabaseEntities1 infodb = new LoginDatabaseEntities1();
-            List<InfoVM> InfoVMList = new List<InfoVM>(); // to hold list of person and info details
+            return View(currentInfoVM);
+        }
+        // GET: Info
+        [AcceptVerbs(HttpVerbs.Get)]
+        public ActionResult GetInfo(InfoVM infoModel)
+        {
+            MVCLogin_dbEntities infodb = new MVCLogin_dbEntities();
+
             // query for getting data from database from joining two tables and storing data in infolist
-            var infolist = (from Pers in infodb.People join Inf in infodb.Infoes on Pers.ID equals Inf.PersonId select new 
-            { Pers.Name, Pers.Surname, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode }).ToList();
-            
+            var infolist = (from Pers in infodb.People
+                            join Inf in infodb.Infoes on Pers.ID equals Inf.PersonId
+                            select new
+                            { Pers.Name, Pers.Surname, Pers.Password, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode, Inf.PersonId });
+
             //Using foreach loop to fill data from infolist to List<InfoVM>
             foreach (var item in infolist)
             {
-                InfoVM objivm = new InfoVM(); // ViewModel
-                objivm.Name = item.Name;
-                objivm.Surname = item.Surname;
-                objivm.TelNo = item.TelNo;
-                objivm.CellNo = item.CellNo;
-                objivm.AddressLine1 = item.AddressLine1;
-                objivm.AddressLine2 = item.AddressLine2;
-                objivm.AddressLine3 = item.AddressLine3;
-                objivm.AddressCode = item.AddressCode;
-                objivm.PostalAddress1 = item.PostalAddress1;
-                objivm.PostalAddress2 = item.PostalAddress2;
-                objivm.PostalCode = item.PostalCode;
-                InfoVMList.Add(objivm);
+                if (item.Name == infoModel.Name && item.Surname == infoModel.Surname && infoModel.Password == item.Password)
+                {
+                    currentInfoVM.Name = item.Name;
+                    currentInfoVM.Surname = item.Surname;
+                    currentInfoVM.TelNo = item.TelNo;
+                    currentInfoVM.CellNo = item.CellNo;
+                    currentInfoVM.AddressLine1 = item.AddressLine1;
+                    currentInfoVM.AddressLine2 = item.AddressLine2;
+                    currentInfoVM.AddressLine3 = item.AddressLine3;
+                    currentInfoVM.AddressCode = item.AddressCode;
+                    currentInfoVM.PostalAddress1 = item.PostalAddress1;
+                    currentInfoVM.PostalAddress2 = item.PostalAddress2;
+                    currentInfoVM.PostalCode = item.PostalCode;
+                    currentInfoVM.PersonId = item.PersonId;
+                }
+
             }
-            // Send List of InfoVM (ViewModel) to view 
-            return View(InfoVMList);
+            // Send List of InfoVM (ViewModel) to view
+            if (infoModel.Name != null)
+            {
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return RedirectToAction("Index", "Login");
+            }
         }
 
         public ActionResult GetInfoPartial()
         {
-            LoginDatabaseEntities1 infodb = new LoginDatabaseEntities1();
-
-            var info = (from Pers in infodb.People
-                            join Inf in infodb.Infoes on Pers.ID equals Inf.PersonId
-                            select new
-                            { Pers.Name, Pers.Surname, Pers.Password, Inf.PersonId, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode });
-
-            foreach (var item in info)
+            if (currentInfoVM.Name != null)
             {
-                InfoVM objivm = new InfoVM(); // ViewModel
-                objivm.PersonId = item.PersonId;
-                objivm.Name = item.Name;
-                objivm.Surname = item.Surname;
-                objivm.TelNo = item.TelNo;
-                objivm.CellNo = item.CellNo;
-                objivm.AddressLine1 = item.AddressLine1;
-                objivm.AddressLine2 = item.AddressLine2;
-                objivm.AddressLine3 = item.AddressLine3;
-                objivm.AddressCode = item.AddressCode;
-                objivm.PostalAddress1 = item.PostalAddress1;
-                objivm.PostalAddress2 = item.PostalAddress2;
-                objivm.PostalCode = item.PostalCode;
-                objivm.Password = item.Password;
-                return PartialView("_CreateOrUpdateInfoPartial", objivm);
+                return PartialView("_CreateOrUpdateInfoPartial", currentInfoVM);
             }
-
             return PartialView("");
         }
 
         public ActionResult CreateOrUpdateInfo(InfoVM info)
         {
-            LoginDatabaseEntities1 staticdb = new LoginDatabaseEntities1();
+            MVCLogin_dbEntities infodb = new MVCLogin_dbEntities();
+            var personDetails = infodb.People.Where(b => b.ID == info.PersonId).SingleOrDefault();
+            var infoDetails = infodb.Infoes.Where(b => b.PersonId == personDetails.ID).SingleOrDefault();
 
-            var staticinfo = (from Pers in staticdb.People
-                        join Inf in staticdb.Infoes on Pers.ID equals Inf.PersonId
-                        select new
-                        { Pers.Name, Pers.Surname});
-
-            Person pers = new Person();
-            foreach (var item in staticinfo)
+            if (personDetails != null && infoDetails != null)
             {
-                pers.Name = item.Name;
-                pers.Surname = item.Surname;
-            }
-            Info inf = new Info();
-            inf.PersonId = info.PersonId;
-            inf.TelNo = info.TelNo;
-            inf.CellNo = info.CellNo;
-            inf.AddressLine1 = info.AddressLine1;
-            inf.AddressLine2 = info.AddressLine2;
-            inf.AddressLine3 = info.AddressLine3;
-            inf.AddressCode = info.AddressCode;
-            inf.PostalAddress1 = info.PostalAddress1;
-            inf.PostalAddress2 = info.PostalAddress2;
-            inf.PostalCode = info.PostalCode;
-            pers.ID = info.PersonId;
-            pers.Password = info.Password;
+                string oldpass = "";
+                oldpass = personDetails.Password;
+                infoDetails.TelNo = info.TelNo;
+                currentInfoVM.TelNo = info.TelNo;
+                infoDetails.CellNo = info.CellNo;
+                currentInfoVM.CellNo = info.CellNo;
+                infoDetails.AddressLine1 = info.AddressLine1;
+                currentInfoVM.AddressLine1 = info.AddressLine1;
+                infoDetails.AddressLine2 = info.AddressLine2;
+                currentInfoVM.AddressLine2 = info.AddressLine2;
+                infoDetails.AddressLine3 = info.AddressLine3;
+                currentInfoVM.AddressLine3 = info.AddressLine3;
+                infoDetails.AddressCode = info.AddressCode;
+                currentInfoVM.AddressCode = info.AddressCode;
+                infoDetails.PostalAddress1 = info.PostalAddress1;
+                currentInfoVM.PostalAddress1 = info.PostalAddress1;
+                infoDetails.PostalAddress2 = info.PostalAddress2;
+                currentInfoVM.PostalAddress2 = info.PostalAddress2;
+                infoDetails.PostalCode = info.PostalCode;
+                currentInfoVM.PostalCode = info.PostalCode;
 
-            if (ModelState.IsValid)
-            {
-                LoginDatabaseEntities1 infodb = new LoginDatabaseEntities1();
-                infodb.Infoes.AddOrUpdate(inf);
-                infodb.People.AddOrUpdate(pers);
-                infodb.SaveChanges();
-                return Json(true, JsonRequestBehavior.AllowGet);
+                if (info.Password != null)
+                {
+                    personDetails.Password = info.Password;
+                }
+                else
+                {
+                    personDetails.Password = oldpass;
+                }
+
+                if (ModelState.IsValid)
+                {
+                    infodb.SaveChanges();
+                    return Json(true, JsonRequestBehavior.AllowGet);
+                }
             }
+            
             return Json(false, JsonRequestBehavior.AllowGet);
         }
-
+       
         public ActionResult RefreshInfoPartial()
         {
-            LoginDatabaseEntities1 infodb = new LoginDatabaseEntities1();
-            List<InfoVM> InfoVMList = new List<InfoVM>(); // to hold list of person and info details
+            MVCLogin_dbEntities infodb = new MVCLogin_dbEntities();
+            InfoVM objivm = new InfoVM(); // to hold list of person and info details
             // query for getting data from database from joining two tables and storing data in infolist
             var infolist = (from Pers in infodb.People
                             join Inf in infodb.Infoes on Pers.ID equals Inf.PersonId
                             select new
-                            { Pers.Name, Pers.Surname, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode}).ToList();
+                            { Pers.Name, Pers.Surname, Inf.TelNo, Inf.CellNo, Inf.AddressLine1, Inf.AddressLine2, Inf.AddressLine3, Inf.AddressCode, Inf.PostalAddress1, Inf.PostalAddress2, Inf.PostalCode});
 
             //Using foreach loop to fill data from infolist to List<InfoVM>
             foreach (var item in infolist)
             {
-                InfoVM objivm = new InfoVM(); // ViewModel
                 objivm.Name = item.Name;
                 objivm.Surname = item.Surname;
                 objivm.TelNo = item.TelNo;
@@ -138,9 +141,8 @@ namespace MVCLogin.Controllers
                 objivm.PostalAddress1 = item.PostalAddress1;
                 objivm.PostalAddress2 = item.PostalAddress2;
                 objivm.PostalCode = item.PostalCode;
-                InfoVMList.Add(objivm);
             }
-            return PartialView("_InfoDetailsPartial", InfoVMList);
+            return PartialView("_InfoDetailsPartial", objivm);
         }
     }
 }

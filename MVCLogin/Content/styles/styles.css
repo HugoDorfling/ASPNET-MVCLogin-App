@@ -1,0 +1,215 @@
+﻿body {
+    min-height: 100vh;
+    position: relative;
+    margin: 0;
+    padding-bottom: 100px;
+    background: linear-gradient(to top right, rgba(0,225,0,0.4), rgba(0,05,231,0.6));
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    text-align: center;
+    height: 100px;
+    width: 100%;
+}
+
+#login-div {
+    border: 1px solid #ccc;
+    padding: 20px 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.2);
+    text-align: center;
+    background: linear-gradient(to top, #ccc, #ffffff);
+}
+
+.field-validation-error {
+    color: red;
+}
+
+.centered {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#login-div h1 {
+    text-align: center;
+    padding: 30px;
+    font-size: 30px;
+}
+
+
+#login-div h4 {
+    font-size: 20px;
+    text-align: center;
+}
+
+#infodetails .info-name {
+    text-align: left;
+    margin-bottom: 10px;
+    color: black;
+    font-weight: bold;
+}
+
+#infodetails .info-data {
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 10px;
+    padding-left: 20px;
+    border: 1px solid #bbb;
+    border-radius: 20px;
+    box-shadow: 1px 1px 5px rgba(0,0,0,0.2);
+    background-color: white;
+}
+
+#infodetails .row {
+    margin-bottom: 5px;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    border-radius: 20px;
+}
+
+#infodetails .row:nth-child(even) {
+    background-color: #ccc;
+}
+
+#infodetails .info-data:hover {
+box-shadow: 1px 1px 10px rgba(0,0,0,0.3);
+}
+
+#login-div #UserName {
+    margin-bottom: 10px;
+    width: 250px;
+}
+
+.login-btn {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.clear-btn {
+    width: 100%;
+}
+
+.infodetailsdiv {
+    border: 1px solid #ccc;
+    padding: 20px 20px;
+    border-radius: 20px;
+    box-shadow: 1px 1px 20px rgba(0,0,0,0.2);
+    background: linear-gradient(to top, #ccc, #ffffff);
+}
+
+.profile-div {
+    display: flex;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, #ccc, #ffffff);
+    padding: 10px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.profile-div p {
+    background: white;
+    border-radius: 10px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 40px;
+}
+
+.logout-btn {
+    height: 40px;
+}
+
+#infodetails h1 {
+    margin-bottom: 40px;
+    text-align: center;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #bbb;
+}
+
+.edit-info-div {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.edit-info-div button {
+    font-size: 16px;
+    height: 40px;
+}
+
+
+@media (min-width:500px) {
+    .infoForm {
+        width: 50vw;
+    }
+
+    .modal-header {
+        width: 50vw;
+        color: rgb(56, 143, 230);
+    }
+
+
+    .modal-dialog {
+        width: 50vw;
+        max-width: none;
+    }
+
+
+    .modal-body {
+        width: 100%;
+    }
+
+    .modal-content {
+        width: 50vw;
+    }
+
+    .modal-body label {
+        text-align: center;
+    }
+
+    .edit-infodetails-div {
+        width: 50vw;
+        padding: 30px;
+    }
+}
+
+.infoForm {
+    width: 100%;
+}
+
+.modal {
+    justify-content: center;
+}
+
+.modal-header {
+    width: 100%;
+    text-align: center;
+}
+
+
+.modal-body {
+    width: 100%;
+}
+
+.modal-content {
+    width: 100%;
+}
+
+.modal-body label {
+    text-align: center;
+}
+
+.edit-infodetails-div {
+    width: 100%;
+    padding: 30px;
+}
+
+.modal-footer button {
+    width: 100%;
+}

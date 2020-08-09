@@ -2,15 +2,17 @@
     ViewBag.Title = "Info Page";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="infodetailsdiv">
-    @{
-        Html.RenderPartial("_InfoDetailsPartial");
-    }
-</div>
-<div class="container-fluid">
+    <div class="info-details-partial">
+        @{
+            Html.RenderPartial("_InfoDetailsPartial");
+        }
+    </div>
+    <div class="container edit-info-div">
         <button type="button" class="btn btn-sm btn-success pull-right" onclick="getInfo()">Edit Information</button>
+    </div>
 </div>
+
 
 <div class="modal fade" role="dialog" id="infoModal" aria-labelledby="infoModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -43,7 +45,7 @@
                     if (res) {
                         modal.modal('hide');
                     }
-                    $(".infodetailsdiv").load('/Info/RefreshInfoPartial');
+                    $(".info-details-partial").load('/Info/RefreshInfoPartial');
                 });
             }
         }

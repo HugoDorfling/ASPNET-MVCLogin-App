@@ -19,34 +19,48 @@ namespace MVCLogin.Controllers
 
 
         [HttpPost]
-        public ActionResult Authorize(Person personModel, LoginVM loginModel)
+        public ActionResult Authorize(Person personModel, LoginVM loginModel, InfoVM infoModel)
         {
-            using (LoginDatabaseEntities db = new LoginDatabaseEntities())
+
+            using (MVCLogin_dbEntities infodb = new MVCLogin_dbEntities())
             {
                 personModel.UserName = loginModel.UserName;
                 personModel.Password = loginModel.Password;
                 int usernameLength = personModel.UserName.Length;
                 string initial = personModel.UserName[0].ToString();
                 string surname = personModel.UserName.Substring(1, usernameLength - 1);
-
-
-                var userDetails = db.People.Where(x => x.Name.Substring(0,1) == initial.ToString() && x.Surname == surname && x.Password == personModel.Password).FirstOrDefault();
-                if (userDetails == null)
+                MVCLogin_dbEntities db = new MVCLogin_dbEntities(); // Person Table
+                var personDetails = db.People.Where(x => x.Name.Substring(0, 1) == initial.ToString() && x.Surname == surname && x.Password == personModel.Password).FirstOrDefault();
+                if (personDetails == null)
                 {
                     loginModel.LoginErrorMessage = "Wrong username or password.";
                     return View("Index", loginModel);
                 } else
                 {
-                    Session["userID"] = userDetails.ID;
+                    var infoDetails = infodb.Infoes.Where(x => x.PersonId == personDetails.ID).FirstOrDefault();
+                    Session["userID"] = personDetails.ID;
+                    infoModel.Name = personDetails.Name;
+                    infoModel.Surname = personDetails.Surname;
+                    infoModel.Password = personDetails.Password;
+                    infoModel.PersonId = personDetails.ID;
+                    infoModel.TelNo = infoDetails.TelNo;
+                    infoModel.CellNo = infoDetails.CellNo;
+                    infoModel.AddressLine1 = infoDetails.AddressLine1;
+                    infoModel.AddressLine2 = infoDetails.AddressLine2;
+                    infoModel.AddressLine3 = infoDetails.AddressLine3;
+                    infoModel.AddressCode = infoDetails.AddressCode;
+                    infoModel.PostalAddress1 = infoDetails.PostalAddress1;
+                    infoModel.PostalAddress2 = infoDetails.PostalAddress2;
+                    infoModel.PostalCode = infoDetails.PostalCode;
                     // get prev login date
-                    if (userDetails.LastLogin != null)
+                    if (personDetails.LastLogin != null)
                     {
-                        var prevLogin = userDetails.LastLogin;
+                        var prevLogin = personDetails.LastLogin;
                     }
                     // update with current login time
-                    userDetails.LastLogin = DateTime.Now;
-                    db.SaveChanges();
-                    return RedirectToAction("Index", "Info");
+                    personDetails.LastLogin = DateTime.Now;
+                    infodb.SaveChanges();
+                    return RedirectToAction("GetInfo", "Info", infoModel);
                 }
             }
         }
